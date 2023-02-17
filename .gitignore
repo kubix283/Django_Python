@@ -42,7 +42,8 @@ coverage.xml
 .python-version
 
 # VirtualEnv
-.venv/
+pipfile
+pipfile.lock
 
 # Developers
 *.sw*
