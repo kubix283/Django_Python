@@ -22,3 +22,18 @@ class Image(models.Model):
         img_200_path = self.image.path.replace('.png', '_200.png').replace('.jpg', '_200.jpg')
         img_200.save(img_200_path)
 
+        # create 400px thumbnail (if premium or enterprise user)
+        if self.user.account_tier in ('premium', 'enterprise'):
+            img_400 = img.copy()
+            img_400.thumbnail((400, 400))
+            img_400_path = self.image.path.replace('.png', '_400.png').replace('.jpg', '_400.jpg')
+
+
+        # store thumbnail paths in database
+        self.thumbnail_200_path = img_200_path
+        if self.user.account_tier in ('premium', 'enterprise'):
+            self.thumbnail_400_path = img_400_path
+        self.save()
+
+    class Meta:
+        ordering = ('-created')
